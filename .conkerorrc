@@ -57,6 +57,7 @@ define_key(content_buffer_normal_keymap, "y", "copy",
            $browser_object = browser_object_dom_node);
 
 define_key(content_buffer_normal_keymap, "C-x u", "view-source");
+define_key(content_buffer_normal_keymap, "C-space", "caret-mode");
 
 
 //
