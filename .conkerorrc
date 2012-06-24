@@ -26,6 +26,7 @@ url_completion_use_bookmarks = true;
 //external_content_handlers.set("application/pdf", "acroread");
 
 // view source in your editor.
+editor_shell_command="/usr/bin/emacs -q";
 view_source_use_external_editor = true;
 
 // passwords
@@ -35,6 +36,22 @@ session_pref("signon.SignonFileName", "signons.txt");
 
 // remember form values
 session_pref("browser.formfill.enable", true);
+
+// disable scrollbars
+function disable_scrollbars (buffer) {
+    buffer.top_frame.scrollbars.visible = false;
+}
+add_hook("create_buffer_late_hook", disable_scrollbars);
+
+
+//
+// Shortcuts
+//
+
+define_key(content_buffer_normal_keymap, "y", "copy",
+           $browser_object = browser_object_dom_node);
+
+define_key(content_buffer_normal_keymap, "C-x u", "view-source");
 
 
 //
