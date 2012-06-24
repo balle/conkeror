@@ -46,6 +46,9 @@ function disable_scrollbars (buffer) {
 add_hook("create_buffer_late_hook", disable_scrollbars);
 
 
+// autoload caret-mode for visual cursor and region
+add_hook("create_buffer_hook", caret_mode_enable);
+
 //
 // Shortcuts
 //
