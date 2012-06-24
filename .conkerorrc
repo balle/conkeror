@@ -83,12 +83,8 @@ interactive("firebug", "open firebug lite", firebug);
 require("adblockplus");
 try { require("dom-inspector"); } catch (e) {}
 
-/* download helper */
-//overlay chrome://conkeror-gui/content/conkeror.xul chrome://dwhelper/content/dwhelper.xul
-
 /* noscript */
-//require("noscript");
-
+require("noscript");
 
 
 ///
