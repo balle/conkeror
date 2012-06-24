@@ -1,4 +1,5 @@
 // webjumps
+define_webjump("aur", "http://aur.archlinux.org/packages.php?O=0&K=%s");
 define_webjump("dj", "https://docs.djangoproject.com/search/?q=%s");
 define_webjump("c", "http://www.google.com/codesearch?q=%s");
 define_webjump("d", "http://dict.leo.org/?lp=ende&lang=de&searchLoc=0&cmpType=relaxed&relink=on&sectHdr=off&spellToler=std&search=%s");
@@ -84,7 +85,7 @@ require("adblockplus");
 try { require("dom-inspector"); } catch (e) {}
 
 /* noscript */
-require("noscript");
+//require("noscript");
 
 
 ///
