@@ -61,7 +61,7 @@ define_key(content_buffer_normal_keymap, "C-x u", "view-source");
 
 //session_pref('extensions.checkCompatibility', false);
 //session_pref("xpinstall.whitelist.required", false);
-//user_pref("extensions.checkUpdateSecurity", true);
+user_pref("extensions.checkUpdateSecurity", true);
 
 
 /* firebug */
