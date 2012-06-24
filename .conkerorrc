@@ -24,7 +24,7 @@ url_completion_use_webjumps = true;
 url_completion_use_bookmarks = true;
 
 // external programs for handling various mime types.
-//external_content_handlers.set("application/pdf", "acroread");
+external_content_handlers.set("application/pdf", "acroread");
 
 // view source in your editor.
 editor_shell_command="/usr/bin/emacs -q";
