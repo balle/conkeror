@@ -1,5 +1,6 @@
 // webjumps
 define_webjump("aur", "http://aur.archlinux.org/packages.php?O=0&K=%s");
+define_webjump("aw", "http://wiki.archlinux.org/index.php?search=%s");
 define_webjump("c", "http://www.google.com/codesearch?q=%s");
 define_webjump("cpan", "http://search.cpan.org/search?query=%s&mode=all");
 define_webjump("d", "http://dict.leo.org/?lp=ende&lang=de&searchLoc=0&cmpType=relaxed&relink=on&sectHdr=off&spellToler=std&search=%s");
@@ -32,7 +33,7 @@ url_completion_use_bookmarks = true;
 external_content_handlers.set("application/pdf", "acroread");
 
 // view source in your editor.
-editor_shell_command="/usr/bin/emacs -q";
+editor_shell_command="emacsclient";
 view_source_use_external_editor = true;
 
 // passwords
@@ -67,12 +68,34 @@ try { require("dom-inspector"); } catch (e) {}
 require("noscript");
 
 /* flashblock */
-//require("flashblock");
+require("content-policy");
+
+function block_flash (content_type, content_location)
+{
+    var action = content_policy_reject;
+    var allowed_sites = new Array("www.youtube.com",
+                                  "www.vimeo.com");
+
+    for(var i=0; i < allowed_sites.length; ++i)
+    {
+       if (content_location.host == allowed_sites[i])
+       {
+          action = content_policy_accept ;
+       }
+    }
+    
+    return action;
+}
+
+content_policy_bytype_table.object = block_flash;
+add_hook("content_policy_hook", content_policy_bytype);
+
 
 //
 // Keybindings
 //
 
+define_key(content_buffer_normal_keymap, "C-u", "view-source");
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
 define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
 define_key(content_buffer_normal_keymap, "T", "follow-new-buffer");
