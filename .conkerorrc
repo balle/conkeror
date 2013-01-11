@@ -68,6 +68,50 @@ try { require("dom-inspector"); } catch (e) {}
 /* noscript */
 require("noscript");
 
+function ns_allow_perm (url, buffer, P, allow) {
+    var ns = noscript_service;
+    if (allow) {
+        ns.setJSEnabled(url, true);
+        setObjectVisibility(buffer.document,showObject);
+    } else {
+        ns.setJSEnabled(url, false);
+        setObjectVisibility(buffer.document,hideObject);
+    }
+}
+
+interactive("ns-toggle-perm",
+    "Allow a site permanently access to javascript",
+    function (I) {
+        var ns = noscript_service;
+        var urls = [];
+        var level = ns.getPref("toolbarToggle", 3);
+        if (! level)
+            level = 3;
+        var url = ns.getQuickSite(I.buffer.document.documentURI, level);
+        var url2;
+        if (url) {
+            urls.push(url);
+            var scripts = I.buffer.document.getElementsByTagName("script");
+            for (var i = 0, n = scripts.length; i < n; i++) {
+                if (scripts[i].getAttribute("src")) {
+                    var matches = scripts[i].getAttribute("src").split("/");
+                    if (matches[0] == "http:")
+                        urls.push(matches[2]);
+                }
+            }
+            urls = unique(urls);
+            urls = urls.filter(function (u) { return !ns.isJSEnabled(u); });
+            while ((url2 = urls.pop())) {
+                ns_allow_perm(url2, I.buffer, I.P,
+                              "y" == (yield I.minibuffer.read_single_character_option(
+                                  $prompt = "Allow " + url2 + "? [y/[n]]",
+                                  $options = ["y", "n"])));
+            }
+            reload(I.buffer, I.P);
+        }
+    });
+
+    
 /* flashblock */
 let (sheet = get_home_directory()) {
     sheet.appendRelativePath(".conkeror.d/css/flashblock.css");
