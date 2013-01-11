@@ -8,6 +8,7 @@ define_webjump("g", "http://www.google.com/search?q=%s");
 define_webjump("o", "http://stackoverflow.com/search?q=%s");
 define_webjump("p", "http://docs.python.org/search.html?q=%s");
 define_webjump("s", "https://www.ixquick.com/do/search?q=%s");
+define_webjump("w", "http://de.wikipedia.org/wiki/%s");
 
 // the default page for new buffers.
 homepage = "about:blank";
@@ -34,7 +35,6 @@ view_source_use_external_editor = true;
 // passwords
 session_pref("signon.rememberSignons", true);
 session_pref("signon.expireMasterPassword", true);
-session_pref("signon.SignonFileName", "signons.txt");
 
 // remember form values
 session_pref("browser.formfill.enable", true);
@@ -46,51 +46,26 @@ function disable_scrollbars (buffer) {
 add_hook("create_buffer_late_hook", disable_scrollbars);
 
 
-// autoload caret-mode for visual cursor and region
-add_hook("create_buffer_hook", caret_mode_enable);
-
-//
-// Shortcuts
-//
-
-define_key(content_buffer_normal_keymap, "y", "copy",
-           $browser_object = browser_object_dom_node);
-
-define_key(content_buffer_normal_keymap, "C-x u", "view-source");
-define_key(content_buffer_normal_keymap, "C-space", "caret-mode");
-
-
 //
 // Extensions
 //
 
-//session_pref('extensions.checkCompatibility', false);
-//session_pref("xpinstall.whitelist.required", false);
+session_pref('extensions.checkCompatibility', false);
+session_pref("xpinstall.whitelist.required", false);
 user_pref("extensions.checkUpdateSecurity", true);
-
-
-/* firebug */
-define_variable("firebug_url",
-    "http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js");
-
-function firebug (I) {
-    var doc = I.buffer.document;
-    var script = doc.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', firebug_url);
-    script.setAttribute('onload', 'firebug.init();');
-    doc.body.appendChild(script);
-}
-interactive("firebug", "open firebug lite", firebug);
-
 
 // adblock
 require("adblockplus");
 try { require("dom-inspector"); } catch (e) {}
 
 /* noscript */
-//require("noscript");
+require("noscript");
 
+/* flashblock */
+//require("flashblock");
+
+// dont show download buffer
+remove_hook("download_added_hook", open_download_buffer_automatically);
 
 ///
 /// Auto-hide Minibuffer
