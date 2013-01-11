@@ -13,6 +13,7 @@ define_webjump("p", "http://docs.python.org/search.html?q=%s");
 define_webjump("s", "https://www.ixquick.com/do/search?q=%s");
 define_webjump("w", "http://de.wikipedia.org/wiki/%s");
 define_webjump("yt", "http://www.youtube.com/results?search_query=%s&search=Search");
+read_url_handler_list = [read_url_make_default_webjump_handler("s")];
 
 // the default page for new buffers.
 homepage = "about:blank";
@@ -68,6 +69,12 @@ try { require("dom-inspector"); } catch (e) {}
 require("noscript");
 
 /* flashblock */
+let (sheet = get_home_directory()) {
+    sheet.appendRelativePath(".conkeror.d/css/flashblock.css");
+    register_user_stylesheet(make_uri(sheet));
+}
+
+/*
 require("content-policy");
 
 function block_flash (content_type, content_location)
@@ -89,6 +96,33 @@ function block_flash (content_type, content_location)
 
 content_policy_bytype_table.object = block_flash;
 add_hook("content_policy_hook", content_policy_bytype);
+*/
+
+// RSS
+require("utils.js");
+
+function subscribe_feed(I){
+    var f=false;
+    var document= I.buffer.document;
+    var ls=document.getElementsByTagName("link");
+    for(var i=0,l;l=ls[i];i++){
+        var t=l.getAttribute('type');
+        var r=l.getAttribute('rel');
+        if(t&&(t=='application/rss+xml'||t=='application/xml+rss'||t=='application/atom+xml')&&r&&r=='alternate'){
+            var h= l.getAttribute('href');
+            dumpln("MUH " + h)
+            if(h.indexOf('http') != 0){
+                var p=(h.indexOf('/')!=0)?'/':document.location.pathname;
+                h='http://'+document.location.hostname+p+h;
+            }
+            writeToClipboard(h);
+            I.minibuffer.message("Found RSS feed " + h);
+            f=true;
+        }}
+    if(!f) I.minibuffer.message('Oops. Can\'t find a feed.');
+};
+interactive("subscribe_feed", "Copy first RSS feed to clipboard", subscribe_feed);
+define_key(default_global_keymap, "C-c s", "subscribe_feed");
 
 
 //
@@ -98,7 +132,23 @@ add_hook("content_policy_hook", content_policy_bytype);
 define_key(content_buffer_normal_keymap, "C-u", "view-source");
 define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
 define_key(content_buffer_normal_keymap, "C-w", "kill-current-buffer");
-define_key(content_buffer_normal_keymap, "T", "follow-new-buffer");
+define_key(content_buffer_normal_keymap, "F", "follow-new-buffer");
+define_key(content_buffer_normal_keymap, "M-left", "back");
+define_key(content_buffer_normal_keymap, "M-right", "forward");
+
+
+// direct switch to buffers
+function define_switch_buffer_key (key, buf_num) {
+    define_key(default_global_keymap, key,
+               function (I) {
+                   switch_to_buffer(I.window,
+                                    I.window.buffers.get_buffer(buf_num));
+               });
+};
+for (let i = 0; i < 10; ++i) {
+    define_switch_buffer_key("M-"+String((i+1)%10), i);
+};
+
 
 
 ///
