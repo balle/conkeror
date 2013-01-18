@@ -15,8 +15,8 @@ function hide_minibuffer (window) {
 
 function show_minibuffer (window) {
     window.minibuffer.element.collapsed = false;
-    if (minibuffer_autohide_with_mode_line && window.mode_line)
-        window.mode_line.container.collapsed = false;
+//    if (minibuffer_autohide_with_mode_line && window.mode_line)
+//        window.mode_line.container.collapsed = false;
 }
 
 //add_hook("window_initialize_hook", hide_minibuffer);
