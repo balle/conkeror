@@ -5,7 +5,7 @@ define_webjump("cpan", "http://search.cpan.org/search?query=%s&mode=all");
 define_webjump("d", "http://dict.leo.org/?lp=ende&lang=de&searchLoc=0&cmpType=relaxed&relink=on&sectHdr=off&spellToler=std&search=%s");
 define_webjump("dj", "https://docs.djangoproject.com/search/?q=%s");
 define_webjump("dd", "https://duckduckgo.com/html/?q=%s");
-define_webjump("e", "http://www.google.com/cse?cx=004774160799092323420%3A6-ff2s0o6yi&q=%s&sa=Search&siteurl=emacswiki.org%2F", $alternative="http://www.emacswiki.org/");
+define_webjump("e", "http://www.google.com/cse?cx=004774160799092323420%3A6-ff2s0o6yi&q=%s&sa=Search&siteurl=emacswiki.org%2F", $alternative="http://www.emacswiki.org/")OC;
 define_webjump("g", "http://www.google.com/search?q=%s");
 define_webjump("git", "http://www.github.com/search?q=%s");
 define_webjump("o", "http://stackoverflow.com/search?q=%s");
