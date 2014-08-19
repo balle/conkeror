@@ -1,5 +1,6 @@
 define_webjump("aur", "http://aur.archlinux.org/packages.php?O=0&K=%s");
 define_webjump("aw", "http://wiki.archlinux.org/index.php?search=%s");
+define_webjump("bl", "https://balu-wiki.readthedocs.org/en/latest/search.html?q=%s");
 define_webjump("c", "http://www.google.com/codesearch?q=%s");
 define_webjump("cpan", "http://search.cpan.org/search?query=%s&mode=all");
 define_webjump("d", "http://dict.leo.org/?lp=ende&lang=de&searchLoc=0&cmpType=relaxed&relink=on&sectHdr=off&spellToler=std&search=%s");
