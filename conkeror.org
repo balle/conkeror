@@ -17,6 +17,14 @@ M-n   - next buffer
 C-x k - close buffer
 * Forms
 C-c C-c - submit form
+* Search / Copy / Paste
+C-s - search forward
+C-r - search backward
+S   - next search result
+R   - previous search result
+shift + <left>/<right> - define region
+M-w - copy region
+* * c - copy dom node
 * Help
 C-h t - tutorial
 C-h k - describe key
