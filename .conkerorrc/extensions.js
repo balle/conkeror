@@ -50,7 +50,7 @@ interactive("ns-toggle-perm",
         }
     });
 
-    
+
 /* flashblock */
 let (sheet = get_home_directory()) {
     sheet.appendRelativePath(".conkerorrc/css/flashblock.css");
@@ -73,7 +73,7 @@ function block_flash (content_type, content_location)
           action = content_policy_accept ;
        }
     }
-    
+
     return action;
 }
 
@@ -119,4 +119,3 @@ function define_switch_buffer_key (key, buf_num) {
 for (let i = 0; i < 10; ++i) {
     define_switch_buffer_key("M-"+String((i+1)%10), i);
 };
-
